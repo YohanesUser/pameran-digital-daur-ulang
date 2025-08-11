@@ -12,34 +12,44 @@
 </head>
 
 <body>
-    <!-- Splash Intro -->
-    <div id="splashIntro" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;display:flex;justify-content:center;align-items:center;z-index:9999;">
-        <img src="https://github.com/YohanesUser/galeri/blob/main/unnamed.png?raw=true" alt="Logo Intro" style="width:150px; height:150px; object-fit:contain;" />
-    </div>
-    <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const splash = document.getElementById('splashIntro');
+  <!-- Splash Intro -->
+  <div id="splashIntro" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;">
+    <img src="https://github.com/YohanesUser/galeri/blob/main/unnamed.png?raw=true" alt="Logo Intro" style="width:150px; height:150px; object-fit:contain;" />
+    
+    <!-- Tulisan default sembunyi -->
+    <p id="stuckMessage" style="margin-top:20px; font-size:16px; color:#cc0000; font-weight:600; text-align:center; max-width:300px; display:none;">
+      Jika tampilan stuck, silakan <strong>refresh</strong> halaman.
+    </p>
+  </div>
 
-    if (sessionStorage.getItem('introShown')) {
-      // Kalau sudah pernah tampil, langsung sembunyikan splash
-      splash.style.display = 'none';
-    } else {
-      // Tampilkan splash, lalu sembunyikan setelah 2 detik
-      setTimeout(() => {
-        // Animasi fade-out opsional
-        splash.classList.add('fade-out');
+  <div id="app" class="min-h-screen p-6">
+  ...
 
-        // Setelah transisi selesai, sembunyikan splash dan set sessionStorage
-        splash.addEventListener('transitionend', () => {
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const splash = document.getElementById('splashIntro');
+      const stuckMsg = document.getElementById('stuckMessage');
+
+      if (sessionStorage.getItem('introShown')) {
+        splash.style.display = 'none';
+      } else {
+        const hideSplash = () => {
           splash.style.display = 'none';
-        });
+          sessionStorage.setItem('introShown', 'true');
+        };
 
-        // Tandai sudah tampil
-        sessionStorage.setItem('introShown', 'true');
-      }, 2000); // 2000 ms = 2 detik
-    }
-  });
-</script>
+        // Sembunyikan splash setelah 2 detik
+        setTimeout(hideSplash, 2000);
+
+        // Jika splash masih muncul setelah 5 detik, tampilkan pesan stuck
+        setTimeout(() => {
+          if (splash.style.display !== 'none') {
+            stuckMsg.style.display = 'block';
+          }
+        }, 5000);
+      }
+    });
+  </script>
     <div id="app" class="min-h-screen p-6">
         <div class="max-w-5xl mx-auto">
             <header class="header-responsive mb-6">
@@ -53,7 +63,7 @@
                 <div class="header-content">
                     <img src="https://smkn1bantul.sch.id/logo.png" alt="Logo Sekolah" class="w-20 h-20 object-contain rounded-lg shadow-md bg-white p-2" />
                     <div class="text-white">
-                        <h1 class="text-3xl font-extrabold text-red-700">Pameran Digital Daur Ulang SMK N 1 BANTUL 2025</h1>
+                        <h1 class="text-3xl font-extrabold text-red-700">Pameran Digital Daur Ulang SMK N 1 BANTUL </h1>
                         <p class="text-sm text-gray-200">Perayaan 17 Agustus 2025 — Kirim foto / video & cerita kreasi daur ulangmu!</p>
                     </div>
                 </div>
@@ -132,7 +142,7 @@
                 </section>
             </div>
 
-            <footer class="mt-10 text-center text-sm text-gray-600">© 2025 Pameran Daur Ulang — dibuat untuk Proyek IPAS. Tema: Merah & Putih 🇮🇩</footer>
+            <footer class="mt-10 text-center text-sm text-gray-600">© 2025 Pameran Daur Ulang — dibuat untuk Proyek IPAS. Tema: Merah & Putih 🇮🇩 YOHANES ALFARO SAPUTRA</footer>
         </div>
     </div>
 
