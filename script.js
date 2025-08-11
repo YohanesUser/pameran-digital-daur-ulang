@@ -180,22 +180,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function downloadJSON() {
-        const payload = entries.map(e => ({
-            id: e.id,
-            name: e.name,
-            kelas: e.kelas,
-            desc: e.desc,
-            createdAt: e.createdAt,
-            media: e.media.map(m => ({ name: m.name, type: m.type }))
-        }));
-        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "pameran-daur-ulang-entries.json";
-        a.click();
-        URL.revokeObjectURL(url);
+    if (!entries || entries.length === 0) {
+        alert("Tidak ada data untuk ditampilkan.");
+        return;
     }
+
+    const payload = entries.map(e => ({
+        id: e.id,
+        name: e.name,
+        kelas: e.kelas,
+        desc: e.desc,
+        createdAt: e.createdAt,
+        media: e.media.map(m => ({ name: m.name, type: m.type }))
+    }));
+
+    const jsonString = JSON.stringify(payload, null, 2);
+    const newWindow = window.open();
+    newWindow.document.write('<pre>' + jsonString.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>');
+    newWindow.document.title = "Data JSON Pameran";
+    newWindow.document.close();
+}
 
     function showTab(tabName) {
         tabButtons.forEach(btn => btn.classList.remove('active'));

@@ -8,10 +8,54 @@
     <script src="script.js" defer></script>
 
     <!-- Favicon / Logo -->
-    
+    <link rel="icon" type="image/png" href="https://github.com/YohanesUser/galeri/blob/main/unnamed.png?raw=true" />
 </head>
 
 <body>
+    <!-- Splash Intro -->
+    <div id="splashIntro" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;display:flex;justify-content:center;align-items:center;flex-direction: column;z-index:9999; transition: opacity 0.5s ease;">
+  <img src="https://github.com/YohanesUser/galeri/blob/main/unnamed.png?raw=true" alt="Logo Intro" style="width:150px; height:150px; object-fit:contain;" />
+  <div id="refreshMessage" style="margin-top: 1rem; color: red; font-weight: bold; display: none; text-align: center;">
+    Jika halaman tersendat, silakan <button onclick="location.reload()" style="color: blue; text-decoration: underline; background:none; border:none; cursor:pointer; font-weight: normal;">refresh</button> halaman ini.
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const splash = document.getElementById('splashIntro');
+    const refreshMsg = document.getElementById('refreshMessage');
+
+    if (sessionStorage.getItem('introShown')) {
+      splash.style.display = 'none';
+    } else {
+      setTimeout(() => {
+        splash.classList.add('fade-out');
+        splash.style.opacity = '0';
+
+        splash.addEventListener('transitionend', () => {
+          splash.style.display = 'none';
+        });
+
+        sessionStorage.setItem('introShown', 'true');
+      }, 2000);
+
+      // Jika splash masih tampil setelah 5 detik, tampilkan pesan refresh
+      setTimeout(() => {
+        if (splash.style.display !== 'none') {
+          refreshMsg.style.display = 'block';
+        }
+      }, 5000);
+    }
+  });
+</script>
+
+<style>
+  #splashIntro.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+</style>
+
     <div id="app" class="min-h-screen p-6">
         <div class="max-w-5xl mx-auto">
             <header class="header-responsive mb-6">
@@ -25,7 +69,7 @@
                 <div class="header-content">
                     <img src="https://smkn1bantul.sch.id/logo.png" alt="Logo Sekolah" class="w-20 h-20 object-contain rounded-lg shadow-md bg-white p-2" />
                     <div class="text-white">
-                        <h1 class="text-3xl font-extrabold text-red-700">Pameran Digital Daur Ulang SMK N 1 BANTUL </h1>
+                        <h1 class="text-3xl font-extrabold text-red-700">Pameran Digital Daur Ulang SMK N 1 BANTUL</h1>
                         <p class="text-sm text-gray-200">Perayaan 17 Agustus 2025 — Kirim foto / video & cerita kreasi daur ulangmu!</p>
                     </div>
                 </div>
@@ -46,18 +90,18 @@
                             <div class="md:col-span-2 space-y-3">
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
-                                    <input type="text" id="name" class="form-input mt-1" placeholder="Contoh: Budi" required />
+                                    <input type="text" id="name" class="form-input mt-1" placeholder="Contoh: Yoan" required />
                                 </div>
                                 <div>
                                     <label for="kelas" class="block text-sm font-medium text-gray-700">Kelas</label>
-                                    <input type="text" id="kelas" class="form-input mt-1" placeholder="Contoh: X IPA 1" required />
+                                    <input type="text" id="kelas" class="form-input mt-1" placeholder="Contoh: X RPL 2" required />
                                 </div>
                                 <div>
                                     <label for="desc" class="block text-sm font-medium text-gray-700">Deskripsi / Cerita (opsional)</label>
                                     <textarea id="desc" rows="4" class="form-input mt-1" placeholder="Ceritakan proses atau ide kreatifmu..."></textarea>
                                 </div>
                                 <div>
-                                    <label for="fileInput" class="block text-sm font-medium text-gray-700">Foto / Video (bisa banyak)</label>
+                                    <label for="fileInput" class="block text-sm font-medium text-gray-700">Foto / Video (Harap tunggu beberapa saat selama proses upload)</label>
                                     <input type="file" id="fileInput" accept="image/*,video/*" class="mt-1 block w-full" />
                                     <p class="text-xs text-gray-500 mt-1">Format yang disarankan: JPG, PNG, MP4. Maks 100MB per file.</p>
                                 </div>
@@ -79,11 +123,22 @@
                                     </div>
                                     <button type="submit" class="w-full btn-primary">Unggah & Simpan</button>
                                 </div>
-                                <a href="https://docs.google.com/spreadsheets/d/1uwXXhTkv3mQEK-Uu66x_kXr-kRyF2Blc97DOPagX4Aw/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="w-full border border-red-600 text-red-600 py-2 rounded-lg inline-block text-center no-underline">
-                                          LIHAT DATA PENGIRIM</a>
+                               <div class="mt-4">
+  <button type="button" id="downloadBtn" class="w-full border border-red-600 text-red-600 py-2 rounded-lg">
+    LIHAT UNGGAHAN PESERTA LAIN
+  </button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('downloadBtn');
+    btn.addEventListener('click', () => {
+      window.open('https://docs.google.com/spreadsheets/d/1uwXXhTkv3mQEK-Uu66x_kXr-kRyF2Blc97DOPagX4Aw/edit?usp=sharing', '_blank');
+    });
+  });
+</script>
 
 
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -99,7 +154,7 @@
                 </section>
             </div>
 
-            <footer class="mt-10 text-center text-sm text-gray-600">© 2025 Pameran Daur Ulang — dibuat untuk Proyek IPAS. Tema: Merah & Putih 🇮🇩 YOHANES ALFARO SAPUTRA</footer>
+            <footer class="mt-10 text-center text-sm text-gray-600">© 2025 Pameran Daur Ulang — dibuat untuk Proyek IPAS. Tema: Merah & Putih 🇮🇩 YOHANES ALFARO S</footer>
         </div>
     </div>
 
