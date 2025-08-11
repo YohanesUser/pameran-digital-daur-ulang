@@ -12,6 +12,34 @@
 </head>
 
 <body>
+    <!-- Splash Intro -->
+    <div id="splashIntro" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;display:flex;justify-content:center;align-items:center;z-index:9999;">
+        <img src="https://github.com/YohanesUser/galeri/blob/main/unnamed.png?raw=true" alt="Logo Intro" style="width:150px; height:150px; object-fit:contain;" />
+    </div>
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const splash = document.getElementById('splashIntro');
+
+    if (sessionStorage.getItem('introShown')) {
+      // Kalau sudah pernah tampil, langsung sembunyikan splash
+      splash.style.display = 'none';
+    } else {
+      // Tampilkan splash, lalu sembunyikan setelah 2 detik
+      setTimeout(() => {
+        // Animasi fade-out opsional
+        splash.classList.add('fade-out');
+
+        // Setelah transisi selesai, sembunyikan splash dan set sessionStorage
+        splash.addEventListener('transitionend', () => {
+          splash.style.display = 'none';
+        });
+
+        // Tandai sudah tampil
+        sessionStorage.setItem('introShown', 'true');
+      }, 2000); // 2000 ms = 2 detik
+    }
+  });
+</script>
     <div id="app" class="min-h-screen p-6">
         <div class="max-w-5xl mx-auto">
             <header class="header-responsive mb-6">
